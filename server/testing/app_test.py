@@ -24,18 +24,24 @@ class TestApp:
 
     def test_animal_route_has_attrs(self):
         '''displays attributes in animal route in <ul> tags called Name, Species.'''
-        name_ul = re.compile(r'\<ul\>[Nn]ame.+')
-        species_ul = re.compile(r'\<ul\>[Ss]pecies.+')
+        # name_ul = re.compile(r'\<ul\>[Nn]ame.+')
+        # species_ul = re.compile(r'\<ul\>[Ss]pecies.+')
+
+        name_li = re.compile(r'<li>[Nn]ame:\s*\w+<\/li>')
+        species_li = re.compile(r'<li>[Ss]pecies:\s*\w+<\/li>')
+
         
         response = app.test_client().get('/animal/1')
 
-        assert(len(name_ul.findall(response.data.decode())) == 1)
-        assert(len(species_ul.findall(response.data.decode())) == 1)
+        assert(len(name_li.findall(response.data.decode())) == 1)
+        assert(len(species_li.findall(response.data.decode())) == 1)
 
     def test_animal_route_has_many_to_one_attrs(self):
         '''displays attributes in animal route in <ul> tags called Zookeeper, Enclosure.'''
-        zookeeper_ul = re.compile(r'\<ul\>Zookeeper.+')
-        enclosure_ul = re.compile(r'\<ul\>Enclosure.+')
+        # zookeeper_ul = re.compile(r'\<ul\>Zookeeper.+')
+        # enclosure_ul = re.compile(r'\<ul\>Enclosure.+')
+        zookeeper_ul = re.compile(r'<li>[Zz]ookeeper:\s*\w+\s*\w+<\/li>')
+        enclosure_ul = re.compile(r'<li>[Ee]nclosure:\s*\w+<\/li>')
         
         response = app.test_client().get('/animal/1')
 
@@ -49,8 +55,10 @@ class TestApp:
 
     def test_zookeeper_route_has_attrs(self):
         '''displays attributes in zookeeper route in <ul> tags called Name, Birthday.'''
-        name_ul = re.compile(r'\<ul\>[Nn]ame.+')
-        birthday_ul = re.compile(r'\<ul\>[Bb]irthday.+')
+        # name_ul = re.compile(r'\<ul\>[Nn]ame.+')
+        # birthday_ul = re.compile(r'\<ul\>[Bb]irthday.+')
+        name_ul = re.compile(r'<li>[Nn]ame:\s*\w+\s*\w+<\/li>')
+        birthday_ul = re.compile(r'<li>[Bb]irthday:\s*\d{4}-\d{2}-\d{2}<\/li>')
         
         response = app.test_client().get('/zookeeper/1')
 
@@ -59,7 +67,8 @@ class TestApp:
 
     def test_zookeeper_route_has_one_to_many_attr(self):
         '''displays attributes in zookeeper route in <ul> tags called Animal.'''
-        animal_ul = re.compile(r'\<ul\>Animal.+')
+        # animal_ul = re.compile(r'\<ul\>Animal.+')
+        animal_ul = re.compile(r'<li>[Aa]nimal:\s*\w+<\/li>')
         
         id = 1
         response = app.test_client().get(f'/zookeeper/{id}')
@@ -72,8 +81,10 @@ class TestApp:
 
     def test_enclosure_route_has_attrs(self):
         '''displays attributes in enclosure route in <ul> tags called Environment, Open to Visitors.'''
-        environment_ul = re.compile(r'\<ul\>[Ee]nvironment.+')
-        open_ul = re.compile(r'\<ul\>[Oo]pen\s[Tt]o\s[Vv]isitors.+')
+        # environment_ul = re.compile(r'\<ul\>[Ee]nvironment.+')
+        # open_ul = re.compile(r'\<ul\>[Oo]pen\s[Tt]o\s[Vv]isitors.+')
+        environment_ul = re.compile(r'<li>[Ee]nvironment:\s*\w+<\/li>')
+        open_ul = re.compile(r'<li>[Oo]pen\s[Tt]o\s[Vv]isitors:\s*(True|False)<\/li>')
         
         response = app.test_client().get('/enclosure/1')
 
@@ -82,7 +93,8 @@ class TestApp:
 
     def test_enclosure_route_has_one_to_many_attr(self):
         '''displays attributes in enclosure route in <ul> tags called Animal.'''
-        animal_ul = re.compile(r'\<ul\>Animal.+')
+        # animal_ul = re.compile(r'\<ul\>Animal.+')
+        animal_ul = re.compile(r'<li>[Aa]nimal:\s*\w+<\/li>')
         
         id = 1
         response = app.test_client().get(f'/enclosure/{id}')
